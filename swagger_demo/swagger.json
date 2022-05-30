@@ -1,0 +1,171 @@
+{
+    "swagger" : "2.0",
+    "info" : {
+        "version" : "1.0.0",
+        "title" : "NodeJS User Api",
+        "description" : "NodeJS API with swagger",
+        "license" : {
+            "name": "MIT",
+            "url" : "https://opensource.org/licenses/MIT"
+        }
+    } ,
+
+    "host" : "localhost:3000",
+    "basePath" : "/api/v1",
+    "tags" : [
+        {
+            "name" : "Users",
+            "description" : "API for users in the system"
+        }
+    ],
+    
+    "schemes" : [
+        "http"
+        
+    ],
+
+    "consumes" : [
+        "application/json"
+    ],
+
+    "produces" : [
+        "application/json"
+    ],
+
+    "paths" : {
+        "/users" : {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+
+                "description": "Create New User",
+                "parameters" : [
+                    {
+                        "name": "user",
+                        "description" : "User that we want to create",
+                        "in": "body",
+                        
+                        "schema" : {
+                            "$ref" : "#/definitions/User"
+                        }
+                    }
+                ],
+
+                "produces" :[
+                    "application/json"
+                ],
+                "responses": {
+
+                        "200" : {
+                            "description": "New user is created",
+                        "schema": {
+                            "$ref" : "#/definitions/User"
+                        }
+                    }
+                }
+            },
+
+            "get" : {
+                "tags" : ["Users"],
+                "summary" : "Get all user",
+                "responses" : {
+                    "200" : {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref" : "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/users/{userId}": {
+          "parameters" : [
+              {
+                  "name": "userId",
+                  "in": "path",
+                  "required" : true,
+                  "description" : "Id of user that we want to find",
+                  "type" : "string"
+              }
+          ],
+
+          "get" : {
+              "tags" : [ "Users"],
+              "summary" : "Get user with given Id",
+              "responses" : {
+                  "200" : {
+                      "description" : "User is found",
+                      "schema" : {
+                          "$ref" : "#/definitions/User"
+                      }
+                  }
+              }
+          },
+
+          "delete" : {
+              "summary" : "Delete user with given ID",
+              "tags" : [
+                  "Users"
+              ],
+              "responses" : {
+                  "200" : {
+                      "description" : "user is deleted",
+                      "schema" : {
+                          "$ref" : "#/definitions/User"
+                      }
+                  }
+              }
+          },
+
+          "put" : {
+              "summary" : "Update user with given ID",
+              "tags" : ["Users"],
+              "parameters" : [
+                  {
+                      "name" : "user",
+                      "in" :"body",
+                      "description" : "User with new value of properties",
+                      "schema" : {
+                          "$ref" : "#/definitions/User"
+                      }
+                  }
+              ],
+              "responses" : {
+                  "200" : {
+                      "description" : "user is updates",
+                      "schema" : {
+                          "$ref" : "#/definitions/User"
+                      }
+                  }
+              }
+          }
+        }
+    },
+    "definitions" : {
+        "User" : {
+            "required" : [
+                "email"
+                
+            ],
+            "properties" : {
+                
+                "email" : {
+                    "type" : "string",
+                    "uniqueItems" : true
+                },
+                "lastName" : {
+                    "type" : "string"
+                },
+                "firstName" : {
+                    "type" :"string"
+                }
+            }
+        },
+        "Users" : {
+            "type" : "array",
+            "$ref" : "#/definitions/User"
+        }
+    }
+}
